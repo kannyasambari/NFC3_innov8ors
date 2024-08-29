@@ -1,20 +1,30 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import PetDetailPage from './pages/PetDetailPage';
-import AdoptionForm from './pages/AdoptionForm';
-import AboutPage from './pages/AboutPage';
+import React, { useState } from 'react';
+import Login from '../src/pages/Login'; // Import the Login component
+import Dashboard from '../src/pages/Dashboard'; // Import the Dashboard component
 
-function App() {
+const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
+
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/pet/:id" element={<PetDetailPage />} />
-        <Route path="/adopt" element={<AdoptionForm />} />
-        <Route path="/about" element={<AboutPage />} />
-      </Routes>
-    </Router>
+    <div>
+      {isLoggedIn ? (
+        <div>
+          <Dashboard />
+          <button onClick={handleLogout}>Logout</button>
+        </div>
+      ) : (
+        <Login onLogin={handleLogin} />
+      )}
+    </div>
   );
-}
+};
 
 export default App;
