@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const EducationalResources = () => {
   return (
-    <Container style={styles.container}>
+    <Container id="community" style={styles.container}>
       <h1 style={styles.title}>Educational Resources</h1>
 
       <Row style={styles.row}>
@@ -78,7 +78,7 @@ const styles = {
     fontFamily: '"Playfair Display", serif',
     fontSize: '18px',
     fontWeight: 'bold',
-    color: '#007BFF', // Light blue color
+    color: '#000000', // Light blue color
   },
   cardText: {
     fontSize: '16px',
