@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Container, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import homebg from '../images/homebg.jpg';
+import homebg from '../images/homebg.png'; // Ensure this path is correct
+import dogImage from '../images/dog.jpeg'; // Import the new image
 import PetCard from './PetCard'; // Import PetCard component
 import ListAPet from './ListAPet'; // Import ListAPet component
 
 const Home = () => {
   const [view, setView] = useState('home'); // State to control which view to display
+  const [hover, setHover] = useState(''); // State to control hover effect
 
   const handleButtonClick = (view) => {
     setView(view);
@@ -17,31 +19,46 @@ const Home = () => {
   };
 
   return (
-    <div id="home" style={styles.homeContainer}>
+    <div style={styles.homeContainer}>
       {view === 'home' && (
         <div style={styles.homeBackground}>
-          <Container className="text-center" style={styles.textContainer}>
+          <Container style={styles.textContainer}>
             <h1 className="tagline">Find Your New Best Friend</h1>
-            <p className="subtitle">Browse pets from our network of over 14,500 shelters and rescues.</p>
+            <p className="subtitle">Browse pets from our network of over 1000 shelters and rescues.</p>
           </Container>
           <div style={styles.buttonContainer}>
-            <Button className="animal-button" style={styles.squareButton} onClick={() => handleButtonClick('dogs')}>
+            <Button
+              className="animal-button"
+              style={{ ...styles.buttonStyles, ...(hover === 'dogs' ? styles.buttonHover : {}) }}
+              onMouseEnter={() => setHover('dogs')}
+              onMouseLeave={() => setHover('')}
+              onClick={() => handleButtonClick('dogs')}
+            >
               Dogs
             </Button>
-            <Button className="animal-button" style={styles.squareButton} onClick={() => handleButtonClick('cats')}>
+            <Button
+              className="animal-button"
+              style={{ ...styles.buttonStyles, ...(hover === 'cats' ? styles.buttonHover : {}) }}
+              onMouseEnter={() => setHover('cats')}
+              onMouseLeave={() => setHover('')}
+              onClick={() => handleButtonClick('cats')}
+            >
               Cats
             </Button>
-            <Button className="animal-button" style={styles.squareButton} onClick={() => handleButtonClick('rabbits')}>
-              Rabbits
-            </Button>
-            <Button className="animal-button" style={styles.squareButton} onClick={() => handleButtonClick('list-a-pet')}>
+            <Button
+              className="animal-button"
+              style={{ ...styles.buttonStyles, ...(hover === 'list-a-pet' ? styles.buttonHover : {}) }}
+              onMouseEnter={() => setHover('list-a-pet')}
+              onMouseLeave={() => setHover('')}
+              onClick={() => handleButtonClick('list-a-pet')}
+            >
               List a Pet
             </Button>
           </div>
         </div>
       )}
       {view === 'list-a-pet' && <ListAPet />}
-      {view === 'dogs' || view === 'cats' || view === 'rabbits' || view === 'other-animals' ? (
+      {(view === 'dogs' || view === 'cats' || view === 'rabbits' || view === 'other-animals') ? (
         <PetCard animalType={view} onBack={handleBackToHome} />
       ) : null}
     </div>
@@ -53,53 +70,48 @@ const styles = {
     height: '100vh',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
     alignItems: 'center',
   },
   homeBackground: {
-    width: '100%',
-    height: '100%',
-    backgroundImage: `url(${homebg})`, // Ensure homebg is imported or defined
+    backgroundImage: `url(${homebg})`,
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center center',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start', // Align content to the top
+    width: '100%',
   },
   textContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: '#fff',
-    textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
-    marginBottom: '20px',
+    textAlign: 'center',
+    padding: '20px',
+    marginTop: '60px', // Space below the navbar
+    color: 'white', // Ensure text color contrasts with the background
   },
   buttonContainer: {
     display: 'flex',
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    flexWrap: 'wrap',
-    gap: '20px',
-    marginTop: '20px',
+    padding: '20px',
+    marginTop: '30px', // 1.5 cm is approximately 35px
+    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Light background to complement sky blue
+    borderRadius: '10px', // Rounded corners
   },
-  squareButton: {
-    width: '150px',
-    height: '150px',
-    fontSize: '20px',
-    fontWeight: 'bold',
-    backgroundColor: 'rgba(139, 87, 66, 0.7)', // Light brown with translucency
-    borderColor: 'rgba(139, 87, 66, 0.7)', // Matching border color
-    color: '#fff',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
-    borderRadius: '10px',
-    border: '2px solid', // Added border styling
-    opacity: 0.9, // Make the button translucent
+  buttonStyles: {
+    fontSize: '1.2rem',
+    padding: '20px 30px',
+    margin: '5px',
+    backgroundColor: 'transparent',
+    border: '2px solid #007bff', // Blue border
+    color: '#007bff', // Blue text color
+    transition: 'all 0.3s ease',
+  },
+  buttonHover: {
+    backgroundColor: '#007bff', // Blue background on hover
+    color: 'white',
   },
 };
+
 export default Home;

@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const EducationalResources = () => {
   return (
-    <Container id="community" style={styles.container}>
+    <Container style={styles.container}>
       <h1 style={styles.title}>Educational Resources</h1>
 
       <Row style={styles.row}>

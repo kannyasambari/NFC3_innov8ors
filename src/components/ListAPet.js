@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+
 const ListAPet = () => {
   const [pet, setPet] = useState({
     name: '',
@@ -10,8 +11,7 @@ const ListAPet = () => {
     age: '',
     vaccinated: false,
     description: '',
-    image: null,
-    type: 'dogs'
+    image: null
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionStatus, setSubmissionStatus] = useState('');
@@ -42,7 +42,6 @@ const ListAPet = () => {
     formData.append('age', pet.age);
     formData.append('vaccinated', pet.vaccinated);
     formData.append('description', pet.description);
-    formData.append('type', pet.type);
     if (pet.image) {
       formData.append('image', pet.image);
     }
@@ -52,12 +51,13 @@ const ListAPet = () => {
         'Content-Type': 'multipart/form-data'
       }
     })
-      .then(() => {
+      .then((response) => {
         setSubmissionStatus('Pet listed successfully!');
-        setPet({ name: '', breed: '', age: '', vaccinated: false, description: '', image: null, type: 'dogs' });
+        setPet({ name: '', breed: '', age: '', vaccinated: false, description: '', image: null });
       })
-      .catch(() => {
+      .catch((error) => {
         setSubmissionStatus('Error listing pet. Please try again.');
+        console.error('Error listing pet:', error);
       })
       .finally(() => {
         setIsSubmitting(false);
@@ -69,22 +69,6 @@ const ListAPet = () => {
       <div style={styles.container}>
         <h1 style={styles.header}>List a Pet for Adoption</h1>
         <Form onSubmit={handleSubmit} style={styles.form}>
-          <Form.Group controlId="formType">
-            <Form.Label>Type</Form.Label>
-            <Form.Control
-              as="select"
-              name="type"
-              value={pet.type}
-              onChange={handleChange}
-              required
-              style={styles.input}
-            >
-              <option value="dogs">Dogs</option>
-              <option value="cats">Cats</option>
-              <option value="rabbits">Rabbits</option>
-            </Form.Control>
-          </Form.Group>
-
           <Form.Group controlId="formName">
             <Form.Label>Name</Form.Label>
             <Form.Control
@@ -165,13 +149,6 @@ const ListAPet = () => {
             >
               {isSubmitting ? 'Submitting...' : 'List Pet'}
             </Button>
-            <Button
-              onClick={() => window.location.href = '/'}
-              variant="secondary"
-              style={styles.backButton}
-            >
-              Back to Home
-            </Button>
           </div>
 
           {submissionStatus && (
@@ -190,13 +167,13 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    minHeight: '100vh',
-    backgroundColor: '#f5f5f5'
+    minHeight: '100vh', // Ensure container takes full height
+    backgroundColor: '#f5f5f5' // Light gray background to complement white form
   },
   container: {
-    width: '80%',
-    maxWidth: '600px',
-    backgroundColor: '#ffffff',
+    width: '80%', // Adjust width to keep it smaller
+    maxWidth: '600px', // Set maximum width for the form
+    backgroundColor: '#ffffff', // White background for the form
     padding: '30px',
     borderRadius: '8px',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
@@ -226,15 +203,11 @@ const styles = {
   },
   buttonContainer: {
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     marginTop: '20px'
   },
   status: {
     marginTop: '20px'
-  },
-  backButton: {
-    marginTop: '10px',
-    width: '150px'
   }
 };
 

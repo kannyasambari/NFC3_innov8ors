@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Card, Button, Form, Modal, Alert } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import YesIcon from '../images/happykutta.jpg'; // Replace with actual path
-import NoIcon from '../images/sadkutta-removebg.png';  // Replace with actual path
 import dog from '../images/dog.jpeg'; // Import dog images
 import dog2 from '../images/dog2.jpeg';
 import dog3 from '../images/dog3.jpeg';
@@ -28,10 +26,13 @@ import cat10 from '../images/cat10.jpg';
 import cat11 from '../images/cat11.jpg';
 import cat12 from '../images/cat12.jpg';
 
+
+import adoptIcon from '../images/happykutta.png'; // Import adopt icon
+import rejectIcon from '../images/sadkutta.avif'; // Import reject icon
+
 const PetCard = ({ animalType, onBack }) => {
-  // Define different pet data based on the animalType
-  const petData = {
-    dogs: [
+  const [pets, setPets] = useState(
+    animalType === 'dogs' ? [
       {
         id: 1,
         name: 'Buddy',
@@ -127,10 +128,8 @@ const PetCard = ({ animalType, onBack }) => {
         age: '4 years',
         description: 'Gentle and affectionate. Great with other pets.',
         image: dog12
-      },
-      // Add more dog entries here
-    ],
-    cats: [
+      }
+    ] : animalType === 'cats' ? [
       {
         id: 1,
         name: 'Whiskers',
@@ -138,6 +137,14 @@ const PetCard = ({ animalType, onBack }) => {
         age: '3 years',
         description: 'Loving and playful. Enjoys being around people.',
         image: cat
+      },
+      {
+        id: 2,
+        name: 'Shadow',
+        breed: 'Maine Coon',
+        age: '2 years',
+        description: 'Gentle giant. Good with children and other pets.',
+        image: cat2
       },
       {
         id: 3,
@@ -218,40 +225,10 @@ const PetCard = ({ animalType, onBack }) => {
         age: '4 years',
         description: 'Friendly and outgoing. Great with families.',
         image: cat12
-      },
-      {
-        id: 2,
-        name: 'Shadow',
-        breed: 'Maine Coon',
-        age: '2 years',
-        description: 'Gentle giant. Good with children and other pets.',
-        image: cat2
-      },
-      // Add more cat entries here
-    ],
-    rabbits: [
-      {
-        id: 1,
-        name: 'Thumper',
-        breed: 'Lionhead',
-        age: '3 years',
-        description: 'Gentle and friendly. Enjoys hopping around and eating fresh vegetables.',
-        image: 'https://via.placeholder.com/300' // Replace with actual image URL
-      },
-      {
-        id: 2,
-        name: 'Clover',
-        breed: 'Holland Lop',
-        age: '2 years',
-        description: 'Calm and affectionate. Loves to be petted and cuddled.',
-        image: 'https://via.placeholder.com/300' // Replace with actual image URL
       }
-      // Add more rabbit entries here
-    ],
-    // Add other pet types if needed
-  };
+    ] : [] // Default empty array for other cases
+  );
 
-  const [pets] = useState(petData[animalType] || []);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showAdoptForm, setShowAdoptForm] = useState(false);
   const [adoptionStatus, setAdoptionStatus] = useState('');
@@ -286,131 +263,121 @@ const PetCard = ({ animalType, onBack }) => {
   };
 
   return (
-    <div style={styles.background}>
-      <Container id="home" style={styles.container}>
-        <Button onClick={onBack} style={styles.backButton}>
-          Back to Home
-        </Button>
-        <div
-          style={{
-            ...styles.cardContainer,
-            transform: isAnimating ? 'translateX(-100%)' : 'translateX(0)',
-            opacity: isAnimating ? 0 : 1,
-            transition: 'transform 0.5s ease, opacity 0.5s ease',
-          }}
-        >
-          {pets.length > 0 && currentIndex < pets.length && (
-            <Card style={styles.card}>
-              <Card.Img variant="top" src={pets[currentIndex].image} />
-              <Card.Body>
-                <Card.Title>{pets[currentIndex].name}</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">{pets[currentIndex].breed} - {pets[currentIndex].age}</Card.Subtitle>
-                <Card.Text>{pets[currentIndex].description}</Card.Text>
-              </Card.Body>
-            </Card>
-          )}
-          <div style={styles.buttonContainer}>
-            <Button
-              onClick={handleNoClick}
-              style={{ ...styles.actionButton, backgroundColor: '#dc3545' }}
-            >
-              <img src={NoIcon} alt="No" style={styles.icon} />
-            </Button>
-            <Button
-              onClick={handleYesClick}
-              style={{ ...styles.actionButton, backgroundColor: '#28a745' }}
-            >
-              <img src={YesIcon} alt="Yes" style={styles.icon} />
-            </Button>
-          </div>
-        </div>
-
-        <Modal show={showAdoptForm} onHide={handleAdoptFormClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Adopt {pets[currentIndex]?.name}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form onSubmit={handleAdoptFormSubmit}>
-              <Form.Group controlId="formName">
-                <Form.Label>Your Name</Form.Label>
-                <Form.Control type="text" placeholder="Enter your name" required />
-              </Form.Group>
-              <Form.Group controlId="formAddress">
-                <Form.Label>Your Address</Form.Label>
-                <Form.Control type="text" placeholder="Enter your address" required />
-              </Form.Group>
-              <Button variant="primary" type="submit">
-                Confirm Adoption
-              </Button>
-            </Form>
-          </Modal.Body>
-        </Modal>
-
-        {adoptionStatus && (
-          <Alert variant={adoptionStatus.startsWith('Error') ? 'danger' : 'success'} style={styles.status}>
-            {adoptionStatus}
-          </Alert>
+    <Container style={styles.container}>
+      <div
+        style={{
+          ...styles.cardContainer,
+          transform: isAnimating ? 'translateX(-100%)' : 'translateX(0)',
+          transition: 'transform 0.5s ease',
+        }}
+      >
+        {pets.length > 0 && (
+          <Card style={styles.card}>
+            <Card.Img variant="top" src={pets[currentIndex].image} style={styles.image} />
+            <Card.Body>
+              <Card.Title>{pets[currentIndex].name}</Card.Title>
+              <Card.Subtitle className="mb-2 text-muted">{pets[currentIndex].breed}</Card.Subtitle>
+              <Card.Text>
+                Age: {pets[currentIndex].age}
+              </Card.Text>
+              <Card.Text>
+                {pets[currentIndex].description}
+              </Card.Text>
+            </Card.Body>
+          </Card>
         )}
-      </Container>
-    </div>
+      </div>
+
+      <div style={styles.buttonsContainer}>
+        <Button
+          style={{ ...styles.circularButton, backgroundColor: 'green' }}
+          onClick={handleYesClick}
+        >
+          <img src={adoptIcon} alt="Adopt" style={styles.buttonIcon} />
+        </Button>
+        <Button
+          style={{ ...styles.circularButton, backgroundColor: 'red' }}
+          onClick={handleNoClick}
+        >
+          <img src={rejectIcon} alt="Reject" style={styles.buttonIcon} />
+        </Button>
+      </div>
+
+      <Button variant="secondary" onClick={onBack} style={styles.backButton}>Back</Button>
+
+      <Modal show={showAdoptForm} onHide={handleAdoptFormClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Adopt {pets[currentIndex]?.name}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleAdoptFormSubmit}>
+            <Form.Group controlId="formBasicName">
+              <Form.Label>Name</Form.Label>
+              <Form.Control type="text" placeholder="Enter your name" required />
+            </Form.Group>
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control type="email" placeholder="Enter your email" required />
+            </Form.Group>
+            <Button variant="primary" type="submit">Submit</Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
+
+      {adoptionStatus && <Alert variant="info" style={styles.alert}>{adoptionStatus}</Alert>}
+    </Container>
   );
 };
 
 const styles = {
-  background: {
-    backgroundColor: 'white',
-    minHeight: '100vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: '60px' // Adjust this value to match the height of your fixed navbar
-  },
   container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative' 
+    marginTop: '60px', // Adjust if navbar height is different
+    padding: '20px',
+    height: 'calc(100vh - 60px)', // Adjust based on navbar height
+    overflowY: 'auto', // Allow scrolling if content overflows
   },
   cardContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    position: 'relative'
+    width: '18rem',
+    margin: 'auto',
+    marginBottom: '20px',
+    position: 'relative',
   },
   card: {
-    width: '300px',
-    marginBottom: '20px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: 'transparent' // Removed background color
+    width: '100%',
+    margin: '0',
   },
-  buttonContainer: {
+  image: {
+    height: '200px', // Set a fixed height for the images
+    objectFit: 'cover', // Ensure images cover the area
+  },
+  backButton: {
+    marginTop: '20px',
+  },
+  alert: {
+    marginTop: '20px',
+  },
+  buttonsContainer: {
     display: 'flex',
-    justifyContent: 'space-between',
-    width: '240px', // Increased width to give more space for the buttons
-    marginTop: '20px'
+    justifyContent: 'center',
+    marginTop: '20px',
   },
-  actionButton: {
-    border: 'none',
+  circularButton: {
+    width: '60px',
+    height: '60px',
     borderRadius: '50%',
-    width: '100px', // Increased button size
-    height: '100px', // Increased button size
+    fontSize: '24px',
+    color: 'white',
+    border: 'none',
+    margin: '0 10px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    cursor: 'pointer',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)'
   },
-  icon: {
-    width: '70px', // Increased icon size
-    height: '70px', // Increased icon size
+  buttonIcon: {
+    width: '30px',
+    height: '30px',
   },
-  status: {
-    marginTop: '20px'
-  },
-  backButton: {
-    marginBottom: '20px'
-  }
 };
 
 export default PetCard;

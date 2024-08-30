@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-scroll';
-import Logo from '../images/logo.avif';
+import Logo from '../images/logo.png';
 
 const Navbar = () => {
   return (
@@ -11,9 +11,12 @@ const Navbar = () => {
       </div>
       <div style={styles.linkContainer}>
         <Link to="home" smooth={true} duration={500} style={styles.link}>Home</Link>
+        <Link to="list-a-pet" smooth={true} duration={500} style={styles.link}>List a Pet</Link>
         <Link to="events" smooth={true} duration={500} style={styles.link}>Events</Link>
         <Link to="community" smooth={true} duration={500} style={styles.link}>Community</Link>
-        <Link to="about" smooth={true} duration={500} style={styles.link}>About</Link>
+        <Link to="contact" smooth={true} duration={500} style={styles.link}>Contact</Link>
+        <Link to="about" smooth={true} duration={500} style={styles.link}>About Us</Link>
+   
       </div>
     </nav>
   );
@@ -21,23 +24,19 @@ const Navbar = () => {
 
 const styles = {
   nav: {
-    position: 'fixed',
-    top: '0',
-    width: '100%',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: '10px 20px',
     backgroundColor: '#f8f9fa',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-    zIndex: '1000' // Ensures the navbar stays on top of other content
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
   },
   logoContainer: {
     display: 'flex',
     alignItems: 'center'
   },
   logo: {
-    width: '40px',
+    width: '60px',
     marginRight: '10px'
   },
   companyName: {
