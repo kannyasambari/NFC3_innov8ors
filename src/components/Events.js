@@ -58,7 +58,7 @@ const styles = {
   container: {
     minHeight: '100vh',
     padding: '20px',
-    backgroundColor: '#f4ecd8' // Background color for the full page
+    backgroundColor: '#FFFFFF' // Background color for the full page
   },
   row: {
     minHeight: '100vh',

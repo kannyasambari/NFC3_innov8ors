@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-scroll';
-import Logo from '../images/logo.avif';
+import Logo from '../images/logo.png';
 
 const Navbar = () => {
   return (
     <nav style={styles.nav}>
       <div style={styles.logoContainer}>
         <img src={Logo} alt="Logo" style={styles.logo} />
-        <span style={styles.companyName}>Pet Adoption</span>
+        <span style={styles.companyName}>Pawfect</span>
       </div>
       <div style={styles.linkContainer}>
         <Link to="home" smooth={true} duration={500} style={styles.link}>Home</Link>
@@ -36,7 +36,7 @@ const styles = {
     alignItems: 'center'
   },
   logo: {
-    width: '40px',
+    width: '60px',
     marginRight: '10px'
   },
   companyName: {
