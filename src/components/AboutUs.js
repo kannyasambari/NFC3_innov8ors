@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const Footer = () => {
   return (
     <footer style={styles.footer}>
-      <Container>
+      <Container id="about">
         <Row>
           <Col md={4} style={styles.col}>
             <Card style={styles.card}>

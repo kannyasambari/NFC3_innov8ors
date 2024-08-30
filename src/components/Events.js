@@ -29,7 +29,7 @@ const events = [
 
 const Events = () => {
   return (
-    <Container fluid style={styles.container}>
+    <Container fluid id="events" style={styles.container}>
       <Row className="justify-content-center align-items-center" style={styles.row}>
         <Col md={10} lg={8} style={styles.col}>
           <h1 style={styles.heading}>Upcoming Events</h1>
@@ -58,7 +58,7 @@ const styles = {
   container: {
     minHeight: '100vh',
     padding: '20px',
-    backgroundColor: '#FFFFFF' // Background color for the full page
+     // Background color for the full page
   },
   row: {
     minHeight: '100vh',
